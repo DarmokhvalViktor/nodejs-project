@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo:4.4
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - my_shared_network
+
+  node-service:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    networks:
+      - my_shared_network
+
+volumes:
+  mongo-data:
+
+networks:
+  my_shared_network:
+    external: true
